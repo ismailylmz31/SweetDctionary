@@ -13,7 +13,7 @@ namespace SweetDictionary.Service.Mappings
     {
         public MappingProfiles()
         {
-            CreateMap<CreatePostRequestDto,Post>().ReverseMap();
+            CreateMap<CreatePostRequestDto,Post>();
             CreateMap<Post, PostResponseDto>();
         }
     }
