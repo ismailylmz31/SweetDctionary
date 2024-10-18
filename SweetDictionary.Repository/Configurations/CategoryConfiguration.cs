@@ -1,16 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SweetDictionary.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace SweetDictionary.Repository.Configurations;
 
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
+
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         builder.ToTable("Categories").HasKey(c=> c.Id);
