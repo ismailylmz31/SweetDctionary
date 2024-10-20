@@ -32,4 +32,12 @@ public class CategoryController(ICategoryService _categoryService): ControllerBa
         var result = _categoryService.GetById(id);
         return Ok(result);
     }
+
+    [HttpGet("getbyname/{name}")]
+    public IActionResult GetByName([FromRoute] string name)
+    {
+        var result = _categoryService.GetByName(name);
+        return Ok(result);
+    }
+
 }

@@ -29,6 +29,8 @@ namespace SweetDictionary.Service.Concretes
             _businessRules = businessRules;
         }
 
+        
+
         public ReturnModel<CategoryResponseDto> Add(CreateCategoryRequestDto dto)
         {
             Category createdCategory = _mapper.Map<Category>(dto);
@@ -112,6 +114,28 @@ namespace SweetDictionary.Service.Concretes
             catch(Exception ex) { return ExceptionHandler<CategoryResponseDto>.HandleException(ex); }
 
        
+        }
+
+        public ReturnModel<CategoryResponseDto> GetByName(string name)
+        {
+            var category = _categoryRepository.GetByName(name);
+            if (category == null)
+            {
+                return new ReturnModel<CategoryResponseDto>
+                {
+                    Message = "Kategori bulunamadı.",
+                    Status = 404,
+                    Success = false
+                };
+            }
+
+            var response = _mapper.Map<CategoryResponseDto>(category);
+            return new ReturnModel<CategoryResponseDto>
+            {
+                Data = response,
+                Status = 200,
+                Success = true
+            };
         }
     }
 }

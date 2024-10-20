@@ -14,6 +14,13 @@ namespace SweetDictionary.Repository.Repositories.Concretes
     {
         public CategoryRepository(BaseDbContext context) : base(context)
         {
+            
         }
+
+        public Category GetByName(string name)
+        {
+            return Context.Categories.FirstOrDefault(c => c.Name == name);
+        }
+
     }
 }

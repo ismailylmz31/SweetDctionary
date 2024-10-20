@@ -18,6 +18,6 @@ namespace SweetDictionary.Service.Abstract
         ReturnModel<CategoryResponseDto> Update(UpdateCategoryRequestDto dto);
 
         ReturnModel<CategoryResponseDto> Delete(int id);
-
+        ReturnModel<CategoryResponseDto> GetByName(string name);
     }
 }
