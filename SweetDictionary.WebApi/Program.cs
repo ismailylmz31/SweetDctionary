@@ -14,8 +14,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostRepository, EfPostRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<PostBusinessRules>();
+builder.Services.AddScoped<CategoryBusinessRules>();
+builder.Services.AddScoped<CommentBusinessRules>();
+builder.Services.AddScoped<UserBusinessRules>();
 builder.Services.AddDbContext<BaseDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
