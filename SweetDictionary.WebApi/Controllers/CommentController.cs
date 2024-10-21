@@ -31,4 +31,19 @@ public class CommentController(ICommentService _commentService):ControllerBase
         var result = _commentService.GetById(id);
         return Ok(result);
     }
+    // Yeni eklenen: Update işlemi için
+    [HttpPut("update")]
+    public IActionResult Update([FromBody] UpdateCommentRequestDto dto)
+    {
+        var result = _commentService.Update(dto);
+        return Ok(result);
+    }
+
+    // Yeni eklenen: Delete işlemi için
+    [HttpDelete("delete/{id}")]
+    public IActionResult Delete([FromRoute] Guid id)
+    {
+        var result = _commentService.Delete(id);
+        return Ok(result);
+    }
 }

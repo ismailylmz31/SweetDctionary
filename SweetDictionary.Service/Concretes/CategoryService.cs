@@ -97,23 +97,60 @@ namespace SweetDictionary.Service.Concretes
         public ReturnModel<CategoryResponseDto> Update(UpdateCategoryRequestDto dto)
         {
 
-            try 
+            //try 
+            //{
+            //    _businessRules.IsPresent(dto.Id);
+            //    Category category = _mapper.Map<Category>(dto.Id);
+            //    Category updated = _categoryRepository.Update(category);
+            //    CategoryResponseDto response = _mapper.Map<CategoryResponseDto>(updated);
+            //    return new ReturnModel<CategoryResponseDto>
+            //    {
+            //        Data = response,
+            //        Message = "kategori güncellendi",
+            //        Status = 200,
+            //        Success = true
+            //    };
+            //}
+            //catch(Exception ex) { return ExceptionHandler<CategoryResponseDto>.HandleException(ex); }
+
+            try
             {
-                _businessRules.IsPresent(dto.Id);
-                Category category = _mapper.Map<Category>(dto.Id);
-                Category updated = _categoryRepository.Update(category);
+                _businessRules.IsPresent(dto.Id); // Id'nin geçerli olduğunu kontrol ediyoruz.
+
+                // Veritabanından mevcut kategoriyi alıyoruz.
+                var existingCategory = _categoryRepository.GetById(dto.Id);
+
+                if (existingCategory == null)
+                {
+                    return new ReturnModel<CategoryResponseDto>
+                    {
+                        Message = "Kategori bulunamadı.",
+                        Status = 404,
+                        Success = false
+                    };
+                }
+
+                // Kategorinin güncellenmiş bilgilerini DTO'dan alıp mevcut kategoriye yüklüyoruz.
+                _mapper.Map(dto, existingCategory);
+
+                // Kategoriyi güncellemeyi çağırıyoruz.
+                Category updated = _categoryRepository.Update(existingCategory);
                 CategoryResponseDto response = _mapper.Map<CategoryResponseDto>(updated);
+
                 return new ReturnModel<CategoryResponseDto>
                 {
                     Data = response,
-                    Message = "kategori güncellendi",
+                    Message = "Kategori güncellendi",
                     Status = 200,
                     Success = true
                 };
             }
-            catch(Exception ex) { return ExceptionHandler<CategoryResponseDto>.HandleException(ex); }
+            catch (Exception ex)
+            {
+                return ExceptionHandler<CategoryResponseDto>.HandleException(ex);
+            }
 
-       
+
         }
 
         public ReturnModel<CategoryResponseDto> GetByName(string name)

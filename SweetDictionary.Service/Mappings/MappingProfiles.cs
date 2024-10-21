@@ -20,6 +20,7 @@ namespace SweetDictionary.Service.Mappings
             CreateMap<Post, PostResponseDto>();
             CreateMap<CreateCategoryRequestDto, Category>();
             CreateMap<Category, CategoryResponseDto>();
+            CreateMap<UpdateCategoryRequestDto, Category>();
             CreateMap<CreateCommentRequestDto, Comment>();
             CreateMap<Comment, CommentResponseDto>();
             CreateMap<CreateUserRequestDto,User>();

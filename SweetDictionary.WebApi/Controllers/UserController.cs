@@ -30,5 +30,20 @@ namespace SweetDictionary.WebApi.Controllers
             var result = _userService.GetById(id);
             return Ok(result);
         }
+        // Yeni eklenen: Update işlemi için
+        [HttpPut("update")]
+        public IActionResult Update([FromBody] UpdateUserRquestDto dto)
+        {
+            var result = _userService.Update(dto);
+            return Ok(result);
+        }
+
+        // Yeni eklenen: Delete işlemi için
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete([FromRoute] long id)
+        {
+            var result = _userService.Delete(id);
+            return Ok(result);
+        }
     }
 }

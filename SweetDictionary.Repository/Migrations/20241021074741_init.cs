@@ -6,30 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SweetDictionary.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class cascade : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Posts",
-                newName: "PostId");
-
-            migrationBuilder.AddColumn<long>(
-                name: "AuthorId",
-                table: "Posts",
-                type: "bigint",
-                nullable: false,
-                defaultValue: 0L);
-
-            migrationBuilder.AddColumn<int>(
-                name: "CategoryId",
-                table: "Posts",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -62,6 +43,33 @@ namespace SweetDictionary.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorId = table.Column<long>(type: "bigint", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
+                    table.ForeignKey(
+                        name: "FK_Posts_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId");
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -98,17 +106,7 @@ namespace SweetDictionary.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "CreatedTime", "Email", "Firstname", "Lastname", "Password", "UpdatedTime", "Username" },
-                values: new object[] { 1L, new DateTime(2024, 10, 17, 15, 17, 41, 517, DateTimeKind.Local).AddTicks(955), "ismail732yilmaz@gmail.com", "İsmail", "Yılmaz", "1213456789", null, "yılancı_osman" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_AuthorId",
-                table: "Posts",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_CategoryId",
-                table: "Posts",
-                column: "CategoryId");
+                values: new object[] { 1L, new DateTime(2024, 10, 21, 10, 47, 40, 789, DateTimeKind.Local).AddTicks(7768), "ismail732yilmaz@gmail.com", "İsmail", "Yılmaz", "1213456789", null, "yılancı_osman" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -120,61 +118,31 @@ namespace SweetDictionary.Repository.Migrations
                 table: "Comments",
                 column: "UserId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Posts_Categories_CategoryId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_AuthorId",
                 table: "Posts",
-                column: "CategoryId",
-                principalTable: "Categories",
-                principalColumn: "CategoryId");
+                column: "AuthorId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Posts_Users_AuthorId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_CategoryId",
                 table: "Posts",
-                column: "AuthorId",
-                principalTable: "Users",
-                principalColumn: "UserId");
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Posts_Categories_CategoryId",
-                table: "Posts");
+            migrationBuilder.DropTable(
+                name: "Comments");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Posts_Users_AuthorId",
-                table: "Posts");
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Comments");
-
-            migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Posts_AuthorId",
-                table: "Posts");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Posts_CategoryId",
-                table: "Posts");
-
-            migrationBuilder.DropColumn(
-                name: "AuthorId",
-                table: "Posts");
-
-            migrationBuilder.DropColumn(
-                name: "CategoryId",
-                table: "Posts");
-
-            migrationBuilder.RenameColumn(
-                name: "PostId",
-                table: "Posts",
-                newName: "Id");
         }
     }
 }

@@ -40,4 +40,20 @@ public class CategoryController(ICategoryService _categoryService): ControllerBa
         return Ok(result);
     }
 
+    // Yeni eklenen: Update işlemi için
+    [HttpPut("update")]
+    public IActionResult Update([FromBody] UpdateCategoryRequestDto dto)
+    {
+        var result = _categoryService.Update(dto);
+        return Ok(result);
+    }
+
+    // Yeni eklenen: Delete işlemi için
+    [HttpDelete("delete/{id}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        var result = _categoryService.Delete(id);
+        return Ok(result);
+    }
+
 }
